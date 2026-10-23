@@ -1,100 +1,86 @@
 /**
- * Tela "Clientes": busca simples (ação principal) e exportação de backup.
+ * TELA: Clientes — busca por nome ou telefone + exportação CSV.
  */
-import { APP_CONFIG } from '../../config/app.config.js';
-import { el, icone, limpar } from '../../core/dom.js';
-import { mensagemParaOperador, registrarErro } from '../../core/erros.js';
-import { store } from '../../core/store.js';
-import { buscarClientes, COLUNAS_CSV_CLIENTES, gerarCSV } from '../../services/clientes.js';
-import { formatarDataBR, hojeISO } from '../../services/datas.js';
-import { formatarWhatsApp } from '../../services/telefone.js';
-import { avisar } from '../componentes/aviso.js';
-import { estadoCarregando, estadoErro } from '../layout.js';
+import { h, montar } from '../../core/dom.js';
+import { clientesService } from '../../services/clientesService.js';
+import { buscarClientes, gerarCSV } from '../../services/validacoes.js';
+import { formatarWhatsapp } from '../../services/mensagemService.js';
+import { formatarData, hojeISO } from '../../core/datas.js';
+import { ehVerdadeiro } from '../../services/recontatoService.js';
+import { TEXTOS } from '../../config/textos.config.js';
+import { carregando, falhaCarregar, comIcone, faixaCampanha, botaoNovo, confirmar } from '../componentes/ui.js';
+import { icone } from '../componentes/icones.js';
 
-let ultimoTermo = ''; // mantém a busca ao voltar da ficha
+const LIMITE = 100; // evita desenhar milhares de linhas no celular
+let ultimoTermo = ''; // a busca continua ao voltar da ficha
 
-export async function telaClientes(principal) {
-  limpar(principal);
-
-  const campoBusca = el('input', {
-    id: 'busca', type: 'search', value: ultimoTermo, autocomplete: 'off',
-    placeholder: 'Nome ou número', 'aria-describedby': 'busca-resumo',
-  });
-  const resumo = el('p', { id: 'busca-resumo', class: 'nota' });
-  const lista = el('ul', { class: 'lista-clientes' });
-
-  principal.append(
-    el('header', { class: 'tela-cab' }, el('h1', { class: 'tela-titulo' }, 'Clientes')),
-    el('div', { class: 'busca' },
-      el('label', { for: 'busca', class: 'visualmente-oculto' }, 'Buscar cliente'),
-      icone('busca'), campoBusca),
-    resumo,
-    lista,
-    el('div', { class: 'rodape-tela' },
-      el('button', { type: 'button', class: 'btn btn-texto', onclick: exportarCSV },
-        icone('baixar'), 'Exportar planilha (CSV)')),
-  );
-
-  const desenhar = () => {
-    const { resultados, total } = buscarClientes(store.clientes, campoBusca.value, APP_CONFIG.busca.maxResultados);
-    limpar(lista);
-
-    if (store.clientes.length === 0) {
-      resumo.textContent = '';
-      lista.append(el('li', { class: 'estado' },
-        el('p', { class: 'estado-titulo' }, 'Nenhum cliente cadastrado ainda'),
-        el('a', { href: '#/clientes/novo', class: 'btn btn-primario' }, 'Cadastrar o primeiro cliente')));
-      return;
-    }
-    if (total === 0) {
-      resumo.textContent = 'Nenhum cliente encontrado. Confira a grafia ou busque pelo número.';
-      return;
-    }
-    resumo.textContent = total > resultados.length
-      ? `Mostrando ${resultados.length} de ${total}. Digite mais letras para achar mais rápido.`
-      : `${total} ${total === 1 ? 'cliente' : 'clientes'}`;
-
-    for (const c of resultados) {
-      lista.append(el('li', {},
-        el('a', { href: `#/cliente/${encodeURIComponent(c.id)}`, class: 'linha-cliente' },
-          el('span', { class: 'linha-nome' }, c.nome),
-          el('span', { class: 'linha-info' }, formatarWhatsApp(c.whatsapp)),
-          el('span', { class: 'linha-info so-largo' },
-            c.dataUltimaCompra ? `Compra em ${formatarDataBR(c.dataUltimaCompra)}` : 'Sem compra registrada'),
-          c.naoQuerContato === 'SIM' || c.consentimento !== 'SIM'
-            ? el('span', { class: 'marca-sem-contato' }, 'Sem contato')
-            : null,
-        )));
-    }
-  };
-
-  campoBusca.addEventListener('input', () => { ultimoTermo = campoBusca.value; desenhar(); });
-
-  if (store.jaCarregou) desenhar();
-  else lista.append(estadoCarregando());
-
+export async function telaClientes(container) {
+  montar(container, carregando());
+  let clientes;
   try {
-    const mudou = await store.carregar();
-    if (mudou) desenhar();
+    clientes = await clientesService.todos();
   } catch (erro) {
-    registrarErro(erro, 'carregar clientes');
-    if (!store.jaCarregou) limpar(lista).append(estadoErro(mensagemParaOperador(erro, 'carregar'), () => telaClientes(principal)));
-    else avisar(mensagemParaOperador(erro, 'carregar'), 'erro');
-  }
-}
-
-function exportarCSV() {
-  if (store.clientes.length === 0) {
-    avisar('Não há clientes para exportar.', 'info');
+    montar(container, falhaCarregar(erro, () => telaClientes(container)));
     return;
   }
-  const csv = gerarCSV(store.clientes, COLUNAS_CSV_CLIENTES);
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = el('a', { href: url, download: `clientes-${hojeISO(APP_CONFIG.fusoHorario)}.csv` });
+
+  const resultado = h('div', { 'aria-live': 'polite' });
+  const contador = h('p', { class: 'contagem' });
+  const busca = h('input', {
+    type: 'search', id: 'busca', value: ultimoTermo, autocomplete: 'off', enterkeyhint: 'search',
+    placeholder: 'Nome ou número', 'aria-label': 'Buscar cliente por nome ou número',
+  });
+
+  const desenharLista = () => {
+    ultimoTermo = busca.value;
+    const achados = buscarClientes(clientes, busca.value);
+    contador.textContent = busca.value.trim()
+      ? `${achados.length} de ${clientes.length} clientes`
+      : `${clientes.length} ${clientes.length === 1 ? 'cliente' : 'clientes'}`;
+    if (!achados.length) {
+      montar(resultado, h('div', { class: 'estado' },
+        h('p', {}, clientes.length ? 'Nenhum cliente encontrado.' : 'Nenhum cliente cadastrado ainda.')));
+      return;
+    }
+    montar(resultado,
+      h('ul', { class: 'lista' }, achados.slice(0, LIMITE).map(itemCliente)),
+      achados.length > LIMITE && h('p', { class: 'estado' }, `Mostrando ${LIMITE} de ${achados.length}. Refine a busca.`));
+  };
+  busca.addEventListener('input', desenharLista);
+
+  montar(container,
+    faixaCampanha('Clientes'),
+    h('div', { class: 'barra-busca' },
+      h('label', { class: 'busca', for: 'busca' }, icone('search', { classe: 'busca-icone' }), busca),
+      botaoNovo('Novo cliente', '#/clientes/novo')),
+    contador,
+    resultado,
+    h('div', { class: 'rodape-tela' },
+      h('button', { type: 'button', class: 'btn-texto', onclick: () => exportar(clientes) }, ...comIcone('download', 'Exportar planilha (CSV)'))));
+  desenharLista();
+}
+
+function itemCliente(c) {
+  return h('li', { class: 'linha' },
+    h('a', { class: 'linha-link', href: `#/clientes/${encodeURIComponent(c.id)}` },
+      h('span', { class: 'linha-nome' }, c.nome),
+      h('span', { class: 'linha-meta' },
+        h('span', { class: 'num' }, formatarWhatsapp(c.whatsapp)),
+        c.ultima_compra && h('span', { class: 'num so-tela-grande' }, `Compra em ${formatarData(c.ultima_compra)}`),
+        !ehVerdadeiro(c.consentimento) && h('span', { class: 'selo' }, 'Sem autorização'))));
+}
+
+async function exportar(clientes) {
+  const ok = await confirmar({ titulo: 'Exportar clientes?', texto: TEXTOS.exportarAviso, botao: 'Baixar arquivo' });
+  if (!ok) return;
+  const csv = gerarCSV(clientes, [
+    ['nome', 'Nome'], ['whatsapp', 'WhatsApp'], ['ultima_compra', 'Última compra'],
+    ['data_nascimento', 'Nascimento'], ['consentimento', 'Autorizou WhatsApp'], ['observacao', 'Observação'],
+  ]);
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const a = h('a', { href: url, download: `clientes-${hojeISO()}.csv` });
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  avisar('Planilha exportada. Guarde o arquivo em local seguro: ele contém dados pessoais.', 'info');
 }

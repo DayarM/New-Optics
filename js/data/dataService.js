@@ -1,115 +1,139 @@
 /**
  * dataService — ÚNICA porta de entrada para ler e gravar dados.
- * As telas nunca falam com o backend diretamente. Para trocar Google Sheets por
- * PHP + MySQL (HostGator), por exemplo, basta criar outro adaptador com os
- * mesmos métodos e escolhê-lo em `escolherAdaptador()`.
+ * --------------------------------------------------------------
+ * As telas e os serviços nunca sabem se os dados estão no Google Sheets,
+ * no MySQL ou no navegador. Para trocar de backend:
+ *   1. crie js/data/adapters/<novo>Adapter.js com os mesmos métodos;
+ *   2. troque a escolha em `escolherAdapter()` abaixo.
+ * Nada mais muda.
  *
- * Contrato de cada adaptador:
- *   entrar({login, senha})        → { token, nome, login }
- *   sair(token)                   → void
- *   carregarTudo(token)           → { clientes: Cliente[], contatos: Contato[] }
- *   salvarCliente(token, cliente) → Cliente (com id, versao, datas de auditoria)
- *   excluirCliente(token, id)     → { contatosRemovidos: number }
- *   registrarContato(token, c)    → { contato: Contato, cliente?: Cliente }
+ * Também mantém um cache em memória: a lista do dia é calculada no
+ * aparelho, sem precisar ir ao servidor a cada clique.
  */
-import { APP_CONFIG } from '../config/app.config.js';
+import { APP_CONFIG, MODO_DEMO } from '../config/app.config.js';
 import { AppError } from '../core/erros.js';
-import { criarAdaptadorAppsScript } from './adapters/appsScript.adapter.js';
-import { criarAdaptadorDemo } from './adapters/demo.adapter.js';
+import { criarSheetsAdapter } from './adapters/sheetsAdapter.js';
+import { criarDemoAdapter } from './adapters/demoAdapter.js';
 
-const CHAVE_SESSAO = 'mmcrm.sessao';
-const DURACAO_SESSAO_MS = 12 * 60 * 60 * 1000; // o servidor é quem decide de fato
-
-function escolherAdaptador() {
-  // PONTO DE EXTENSÃO: outro backend (ex.: criarAdaptadorPhpMysql(APP_CONFIG.api)).
-  return APP_CONFIG.api.url ? criarAdaptadorAppsScript(APP_CONFIG.api) : criarAdaptadorDemo();
+function escolherAdapter() {
+  if (MODO_DEMO) return criarDemoAdapter();
+  return criarSheetsAdapter(APP_CONFIG);
+  // PONTO DE EXTENSÃO: return criarMysqlAdapter(APP_CONFIG); // HostGator (PHP + MySQL)
 }
 
-const adaptador = escolherAdaptador();
+const adapter = escolherAdapter();
+let cache = null; // { clientes, contatos, compras, receitas }
+const ouvintes = new Set();
 
-/* ---------------- sessão ---------------- */
-
-function lerSessao() {
+/** Garante que erros fora do padrão virem AppError com o código informado. */
+async function executar(promessa, codigoPadrao) {
   try {
-    const s = JSON.parse(localStorage.getItem(CHAVE_SESSAO) || 'null');
-    if (!s || !s.token || Date.now() > s.expiraEm) return null;
-    return s;
-  } catch {
-    return null;
+    return await promessa;
+  } catch (e) {
+    if (e instanceof AppError) throw e;
+    console.error(e); // detalhe técnico só no console, nunca na tela
+    throw new AppError(codigoPadrao);
   }
 }
 
-function gravarSessao(s) {
-  try { localStorage.setItem(CHAVE_SESSAO, JSON.stringify(s)); } catch { /* navegador sem armazenamento */ }
+function avisar() { ouvintes.forEach((fn) => fn(cache)); }
+function substituir(lista, item) {
+  const i = lista.findIndex((x) => x.id === item.id);
+  if (i >= 0) lista[i] = item; else lista.push(item);
 }
-
-function apagarSessao() {
-  try { localStorage.removeItem(CHAVE_SESSAO); } catch { /* ignora */ }
-}
-
-/** Executa a chamada com o token; se a sessão expirou, avisa o app. */
-async function comSessao(fn) {
-  const s = lerSessao();
-  if (!s) {
-    window.dispatchEvent(new CustomEvent('crm:sessao-expirada'));
-    throw new AppError('sessao');
-  }
-  try {
-    return await fn(s.token);
-  } catch (erro) {
-    if (erro instanceof AppError && erro.codigo === 'sessao') {
-      apagarSessao();
-      window.dispatchEvent(new CustomEvent('crm:sessao-expirada'));
-    }
-    throw erro;
-  }
-}
-
-/* ---------------- API pública ---------------- */
 
 export const dataService = {
-  modoDemonstracao: !APP_CONFIG.api.url,
+  /** Chamado quando o cache muda (ex.: depois de salvar). */
+  aoMudar(fn) { ouvintes.add(fn); return () => ouvintes.delete(fn); },
 
-  sessaoAtual() {
-    const s = lerSessao();
-    return s ? { nome: s.nome, login: s.login } : null;
+  async login(usuario, senha) {
+    return executar(adapter.login(usuario, senha), 'DESCONHECIDO');
   },
 
-  async entrar(login, senha) {
-    const r = await adaptador.entrar({ login, senha });
-    gravarSessao({ ...r, expiraEm: Date.now() + DURACAO_SESSAO_MS });
-    return { nome: r.nome, login: r.login };
+  /** Carrega tudo uma vez; `forcar` busca de novo no servidor. */
+  async obterTudo({ forcar = false } = {}) {
+    if (!cache || forcar) {
+      cache = await executar(adapter.carregar(), 'ERRO_CARREGAR');
+      for (const k of ['clientes', 'contatos', 'compras', 'receitas', 'leads']) cache[k] = cache[k] || [];
+      avisar();
+    }
+    return cache;
   },
 
-  async sair() {
-    const s = lerSessao();
-    apagarSessao();
-    if (s) {
-      try { await adaptador.sair(s.token); } catch { /* sair localmente já basta */ }
+  limparCache() { cache = null; },
+
+  async salvarCliente(cliente) {
+    const salvo = await executar(adapter.salvarCliente(cliente), 'ERRO_SALVAR');
+    if (cache) { substituir(cache.clientes, salvo); avisar(); }
+    return salvo;
+  },
+
+  async excluirCliente(id) {
+    await executar(adapter.excluirCliente(id), 'ERRO_EXCLUIR');
+    if (cache) {
+      cache.clientes = cache.clientes.filter((x) => x.id !== id);
+      for (const t of ['contatos', 'compras', 'receitas']) cache[t] = cache[t].filter((x) => x.cliente_id !== id);
+      avisar();
     }
   },
 
-  carregarTudo() {
-    return comSessao((t) => adaptador.carregarTudo(t));
+  /** contato com cliente_id OU lead_id. Retorna { contato, cliente? , lead? } */
+  async registrarContato(contato) {
+    const r = await executar(adapter.registrarContato(contato), 'ERRO_SALVAR');
+    if (cache) {
+      cache.contatos.push(r.contato);
+      if (r.cliente) substituir(cache.clientes, r.cliente);
+      if (r.lead) substituir(cache.leads, r.lead);
+      avisar();
+    }
+    return r;
   },
 
-  salvarCliente(cliente) {
-    return comSessao((t) => adaptador.salvarCliente(t, cliente));
+  /* ---------------- LEADS (Fase 2) ---------------- */
+  async salvarLead(lead) {
+    const salvo = await executar(adapter.salvarLead(lead), 'ERRO_SALVAR');
+    if (cache) { substituir(cache.leads, salvo); avisar(); }
+    return salvo;
   },
 
-  excluirCliente(id) {
-    return comSessao((t) => adaptador.excluirCliente(t, id));
+  async excluirLead(id) {
+    await executar(adapter.excluirLead(id), 'ERRO_EXCLUIR');
+    if (cache) {
+      cache.leads = cache.leads.filter((x) => x.id !== id);
+      cache.contatos = cache.contatos.filter((x) => x.lead_id !== id);
+      avisar();
+    }
   },
 
-  registrarContato(contato) {
-    return comSessao((t) => adaptador.registrarContato(t, contato));
+  /** Cria o cliente a partir do lead. Retorna { lead, cliente }. */
+  async converterLead(id) {
+    const r = await executar(adapter.converterLead(id), 'ERRO_SALVAR');
+    if (cache) { substituir(cache.leads, r.lead); substituir(cache.clientes, r.cliente); avisar(); }
+    return r;
   },
 
-  /*
-   * PONTO DE EXTENSÃO — Fase 2 (Leads):
-   *   listarLeads(), salvarLead(lead), converterLeadEmCliente(leadId)
-   * PONTO DE EXTENSÃO — Fase 3 (Vendas e indicadores):
-   *   registrarVenda(venda), listarVendas(filtro), carregarIndicadores(periodo)
-   * Cada método novo segue o mesmo padrão: comSessao((t) => adaptador.metodo(t, ...)).
-   */
+  async salvarCompra(compra) {
+    const r = await executar(adapter.salvarCompra(compra), 'ERRO_SALVAR');
+    if (cache) { cache.compras.push(r.compra); substituir(cache.clientes, r.cliente); avisar(); }
+    return r;
+  },
+
+  async salvarReceita(receita) {
+    const r = await executar(adapter.salvarReceita(receita), 'ERRO_SALVAR');
+    if (cache) { cache.receitas.push(r.receita); avisar(); }
+    return r;
+  },
+
+  /** tipo: 'compras' | 'receitas' */
+  async excluirRegistro(tipo, id) {
+    const r = await executar(adapter.excluirRegistro(tipo, id), 'ERRO_EXCLUIR');
+    if (cache) {
+      cache[tipo] = cache[tipo].filter((x) => x.id !== id);
+      if (r?.cliente) substituir(cache.clientes, r.cliente);
+      avisar();
+    }
+    return r;
+  },
+
+  // PONTO DE EXTENSÃO – indicadores no servidor: obterIndicadores(periodo)
 };

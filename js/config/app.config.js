@@ -1,69 +1,43 @@
 /**
- * Configuração geral do CRM.
- * Tudo que muda de uma loja para outra (ou de uma fase para outra) fica aqui,
- * nunca espalhado pelo código.
+ * CONFIGURAÇÃO GERAL DO APP
+ * --------------------------------------------------------------
+ * Tudo que muda sem precisar "programar" fica aqui.
+ * Nenhum segredo (senha, chave) pode ficar neste arquivo: ele é público
+ * quando o site está no GitHub Pages.
  */
-export const APP_CONFIG = {
-  versao: '1.0.0',
 
+export const APP_CONFIG = {
+  /**
+   * URL do Web App do Google Apps Script (termina em /exec).
+   * Deixe vazio ('') para rodar em MODO DEMONSTRAÇÃO, com dados
+   * salvos só neste aparelho — útil para testar antes de publicar.
+   */
+  apiUrl: '',
+
+  /** Tempo máximo de espera por resposta do servidor (ms). */
+  timeoutMs: 20000,
+
+  /** Dados da loja (usados nas mensagens de WhatsApp e no rodapé). */
   loja: {
     nome: 'MM Óptica',
     slogan: 'Sua visão em boas mãos',
-    endereco: 'Rua Pedro Pereira, 686',
-    whatsapp: '5585988618282',
+    whatsapp: '(85) 98861-8282',
     instagram: '@mm_optica',
-    // Logos extraídos da campanha (brancos, para fundo roxo).
-    logo: './assets/logo.png',                 // completo, com slogan (tela de entrada)
-    logoCompacto: './assets/logo-compacto.png', // cabeçalho
-    // Foto da campanha usada como ilustração na tela de entrada.
-    // Para trocar a cada campanha, substitua o arquivo ou aponte para outro.
-    fotoCampanha: './assets/campanha-crianca.jpg',
+    endereco: 'Rua Pedro Pereira, 686',
   },
 
-  api: {
-    // Cole aqui a URL "/exec" da implantação do Apps Script.
-    // Vazio = MODO DEMONSTRAÇÃO: os dados ficam só neste navegador (bom para treinar).
-    url: '',
-    tempoLimiteMs: 20000,
-  },
-
-  fusoHorario: 'America/Fortaleza',
-
-  lista: {
-    // Quantos contatos por dia, no máximo, aparecem em "Quem contatar hoje".
-    limiteDiario: 20,
-  },
-
-  busca: {
-    maxResultados: 60,
-  },
+  /** DDI usado para montar o link wa.me quando o número vem sem ele. */
+  ddiPadrao: '55',
 
   /**
-   * FEATURE FLAGS — liguem as fases sem refatorar.
-   * Ao trocar para true, o menu e as rotas da fase passam a ser carregados
-   * (veja main.js → carregarModulosDeFase). Os módulos ainda não existem na Fase 1.
+   * FEATURE FLAGS — ligam/desligam módulos sem mexer no código.
+   * `leads` também precisa de CONFIG.FASES.leads = true no Code.gs.
    */
   features: {
-    leads: false,       // Fase 2
-    vendas: false,      // Fase 3
-    indicadores: false, // Fase 3
+    leads: true,              // Fase 2 – cadastro e funil de leads
+    indicadores: true,        // Fase 3 – painel com indicadores
   },
-
-  /**
-   * Menu principal. Na Fase 1 são 3 itens.
-   * Itens com `flag` só aparecem quando a feature correspondente está ligada.
-   */
-  menu: [
-    { id: 'hoje', rotulo: 'Hoje', rota: '#/hoje', icone: 'sol' },
-    { id: 'clientes', rotulo: 'Clientes', rota: '#/clientes', icone: 'pessoas' },
-    { id: 'cadastrar', rotulo: 'Cadastrar', rota: '#/clientes/novo', icone: 'mais' },
-    // PONTO DE EXTENSÃO (Fase 2/3): itens já previstos, desligados pelas flags.
-    { id: 'leads', rotulo: 'Leads', rota: '#/leads', icone: 'funil', flag: 'leads' },
-    { id: 'vendas', rotulo: 'Vendas', rota: '#/vendas', icone: 'sacola', flag: 'vendas' },
-    { id: 'indicadores', rotulo: 'Resultados', rota: '#/indicadores', icone: 'grafico', flag: 'indicadores' },
-  ],
 };
 
-export function featureLigada(nome) {
-  return Boolean(APP_CONFIG.features[nome]);
-}
+/** Modo demonstração é ligado automaticamente quando não há apiUrl. */
+export const MODO_DEMO = !APP_CONFIG.apiUrl;

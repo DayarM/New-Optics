@@ -3,19 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#2B1747">
+  <!-- Política de segurança: só carrega código deste site e só conversa com o Google Apps Script. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'self'; form-action 'self'">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#3A0D63">
   <meta name="robots" content="noindex, nofollow">
-  <title>MM Óptica · CRM</title>
-  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <title>Contatos | MM Óptica</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <script src="js/tema-inicial.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/app.css">
-  <script type="module" src="./js/main.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="app">
-    <noscript>Este sistema precisa do JavaScript ligado no navegador.</noscript>
-  </div>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+  <header id="cabecalho" class="cabecalho"></header>
+  <div id="faixa-demo" class="faixa-demo"></div>
+  <main id="conteudo" class="conteudo" tabindex="-1">
+    <noscript>Ative o JavaScript do navegador para usar o sistema.</noscript>
+  </main>
+  <div id="aviso" class="area-aviso" aria-live="polite" aria-atomic="true"></div>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

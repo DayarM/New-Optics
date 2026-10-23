@@ -1,69 +1,41 @@
-import { APP_CONFIG } from '../../config/app.config.js';
-import { el, limpar } from '../../core/dom.js';
-import { mensagemParaOperador, registrarErro } from '../../core/erros.js';
-import { dataService } from '../../data/dataService.js';
-
 /**
- * Tela de entrada. Chama `aoEntrar(sessao)` quando o login dá certo.
+ * TELA: Entrar.
  */
-export function telaLogin(raiz, { aoEntrar }) {
-  limpar(raiz);
-  const { loja } = APP_CONFIG;
+import { h, montar, lerFormulario } from '../../core/dom.js';
+import { authService } from '../../services/authService.js';
+import { APP_CONFIG, MODO_DEMO } from '../../config/app.config.js';
+import { TEXTOS } from '../../config/textos.config.js';
+import { campo, comCarregamento } from '../componentes/ui.js';
+import { mensagemAmigavel } from '../../core/erros.js';
 
-  const erro = el('p', { class: 'erro-form', role: 'alert' });
-  const usuario = el('input', {
-    id: 'login-usuario', name: 'usuario', autocomplete: 'username', autocapitalize: 'none', required: true,
-  });
-  const senha = el('input', {
-    id: 'login-senha', name: 'senha', type: 'password', autocomplete: 'current-password', required: true,
-  });
-  const botao = el('button', { type: 'submit', class: 'btn btn-primario btn-largo' }, 'Entrar');
-
-  const form = el('form', { class: 'login-form', novalidate: true },
-    el('div', { class: 'campo' }, el('label', { for: 'login-usuario' }, 'Usuário'), usuario),
-    el('div', { class: 'campo' }, el('label', { for: 'login-senha' }, 'Senha'), senha),
+export function telaLogin(container, aoEntrar) {
+  const erro = h('p', { class: 'login-erro', role: 'alert' });
+  const form = h('form', { class: 'form', novalidate: true },
+    campo({ nome: 'usuario', rotulo: 'Usuário', obrigatorio: true, attrs: { autocomplete: 'username', autocapitalize: 'none', spellcheck: 'false' } }),
+    campo({ nome: 'senha', rotulo: 'Senha', tipo: 'password', obrigatorio: true, attrs: { autocomplete: 'current-password' } }),
     erro,
-    botao,
-    dataService.modoDemonstracao
-      ? el('p', { class: 'dica' }, 'Modo de demonstração: digite qualquer usuário e senha.')
-      : null,
-  );
+    h('button', { class: 'btn btn-principal', type: 'submit' }, 'Entrar'));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     erro.textContent = '';
-    if (!usuario.value.trim() || !senha.value) {
-      erro.textContent = 'Preencha usuário e senha.';
-      return;
-    }
-    botao.disabled = true;
-    botao.textContent = 'Entrando…';
+    const { usuario, senha } = lerFormulario(form);
     try {
-      const sessao = await dataService.entrar(usuario.value.trim().toLowerCase(), senha.value);
+      const sessao = await comCarregamento(form.querySelector('[type=submit]'), 'Entrando…', () => authService.entrar(usuario, senha));
       aoEntrar(sessao);
     } catch (falha) {
-      registrarErro(falha, 'login');
-      erro.textContent = mensagemParaOperador(falha, 'entrar');
-      senha.value = '';
-      senha.focus();
-    } finally {
-      botao.disabled = false;
-      botao.textContent = 'Entrar';
+      erro.textContent = mensagemAmigavel(falha);
+      form.elements.senha.value = '';
+      form.elements.senha.focus();
     }
   });
 
-  // Foto da campanha: só ilustração (fundo decorativo, ignorado por leitores de tela).
-  const foto = el('div', { class: 'login-foto', 'aria-hidden': 'true' });
-  foto.style.backgroundImage = `url("${loja.fotoCampanha}")`;
-
-  raiz.append(
-    el('main', { class: 'login' },
-      loja.fotoCampanha ? foto : null,
-      el('div', { class: 'login-painel' },
-        el('img', { src: loja.logo, alt: `${loja.nome}: ${loja.slogan}`, class: 'login-logo', width: 393, height: 273 }),
-        el('div', { class: 'login-caixa' },
-          el('h1', { class: 'login-titulo' }, 'Entrar no CRM'),
-          form))),
-  );
-  usuario.focus();
+  montar(container,
+    h('div', { class: 'login' },
+      h('img', { class: 'login-logo', src: 'assets/logo.png', alt: APP_CONFIG.loja.nome }),
+      h('p', { class: 'login-slogan' }, APP_CONFIG.loja.slogan),
+      h('div', { class: 'login-caixa' },
+        h('h1', {}, 'Entrar'),
+        MODO_DEMO && h('p', { class: 'aviso-inline' }, `${TEXTOS.demoAviso} Use qualquer usuário e senha.`),
+        form)));
 }

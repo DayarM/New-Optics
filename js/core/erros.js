@@ -1,41 +1,29 @@
 /**
- * Erros da aplicação. Toda falha que chega à tela vira um AppError com um
- * `codigo` conhecido, traduzido para linguagem simples em config/textos.js.
+ * Tratamento de erros centralizado.
+ * Toda falha vira um AppError com um `codigo`. A interface nunca mostra
+ * mensagens técnicas: ela traduz o código via MENSAGENS_ERRO.
  */
-import { TEXTOS } from '../config/textos.js';
+import { MENSAGENS_ERRO } from '../config/textos.config.js';
 
 export class AppError extends Error {
   /**
-   * @param {string} codigo   rede | tempo | sessao | login_invalido | bloqueado |
-   *                          conflito | nao_encontrado | ocupado | validacao | servidor
-   * @param {string} [mensagem] mensagem já amigável vinda do servidor (ex.: validação)
-   * @param {unknown} [causa]
+   * @param {string} codigo   chave de MENSAGENS_ERRO
+   * @param {object} [extra]  ex.: { campos: { nome: 'Informe o nome' } }
    */
-  constructor(codigo, mensagem, causa) {
-    super(mensagem || codigo);
+  constructor(codigo, extra = {}) {
+    super(codigo);
     this.name = 'AppError';
     this.codigo = codigo;
-    this.mensagemAmigavel = mensagem || '';
-    this.causa = causa;
+    this.extra = extra;
   }
 }
 
 /**
- * Mensagem para o operador.
+ * Converte qualquer erro em texto para o operador.
  * @param {unknown} erro
- * @param {'salvar'|'carregar'|'excluir'|'entrar'} [acao]
+ * @param {string} [padrao] código usado quando o erro não é reconhecido
  */
-export function mensagemParaOperador(erro, acao) {
-  const e = TEXTOS.erros;
-  if (erro instanceof AppError) {
-    if (erro.codigo === 'validacao' && erro.mensagemAmigavel) return erro.mensagemAmigavel;
-    if (e[erro.codigo]) return e[erro.codigo];
-  }
-  return e[acao] || e.generico;
-}
-
-/** Registra o detalhe técnico no console (para quem for dar suporte). */
-export function registrarErro(erro, contexto = '') {
-  // PONTO DE EXTENSÃO: enviar para um log remoto (ex.: aba "Erros" na planilha).
-  console.error(`[CRM] ${contexto}`, erro);
+export function mensagemAmigavel(erro, padrao = 'DESCONHECIDO') {
+  const codigo = erro instanceof AppError ? erro.codigo : padrao;
+  return MENSAGENS_ERRO[codigo] || MENSAGENS_ERRO[padrao] || MENSAGENS_ERRO.DESCONHECIDO;
 }
