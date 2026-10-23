@@ -1,0 +1,11 @@
+{
+  "name": "mm-otica-crm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mini-CRM comercial da MM Óptica (SPA vanilla + Google Sheets/Apps Script)",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "dev": "python3 -m http.server 8080"
+  }
+}
