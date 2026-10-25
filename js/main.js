@@ -2,24 +2,24 @@
  * PONTO DE ENTRADA DO APP
  * Liga sessão, tema, menu e rotas. As telas ficam em js/ui/telas.
  */
-import { h, montar } from './core/dom.js?v=864615d145';
-import { rota, iniciarRoteador, irPara, caminhoAtual } from './core/router.js?v=864615d145';
-import { APP_CONFIG, MODO_DEMO } from './config/app.config.js?v=864615d145';
-import { TEXTOS } from './config/textos.config.js?v=864615d145';
-import { authService } from './services/authService.js?v=864615d145';
-import { aplicarTema, alternarTema, temaAtual, temaSalvo } from './core/tema.js?v=864615d145';
-import { avisar, configurarExpiracao } from './ui/componentes/ui.js?v=864615d145';
-import { icone } from './ui/componentes/icones.js?v=864615d145';
-import { telaLogin } from './ui/telas/login.js?v=864615d145';
-import { telaHoje } from './ui/telas/hoje.js?v=864615d145';
-import { telaClientes } from './ui/telas/clientes.js?v=864615d145';
-import { telaClienteForm } from './ui/telas/clienteForm.js?v=864615d145';
-import { telaClienteDetalhe } from './ui/telas/clienteDetalhe.js?v=864615d145';
-import { telaContatos } from './ui/telas/contatos.js?v=864615d145';
-import { telaLeads } from './ui/telas/leads.js?v=864615d145';
-import { telaLeadForm } from './ui/telas/leadForm.js?v=864615d145';
-import { telaLeadDetalhe } from './ui/telas/leadDetalhe.js?v=864615d145';
-import { telaPainel } from './ui/telas/painel.js?v=864615d145';
+import { h, montar } from './core/dom.js?v=38e7358a80';
+import { rota, iniciarRoteador, irPara, caminhoAtual } from './core/router.js?v=38e7358a80';
+import { APP_CONFIG, MODO_DEMO } from './config/app.config.js?v=38e7358a80';
+import { TEXTOS } from './config/textos.config.js?v=38e7358a80';
+import { authService } from './services/authService.js?v=38e7358a80';
+import { aplicarTema, alternarTema, temaAtual, temaSalvo } from './core/tema.js?v=38e7358a80';
+import { avisar, configurarExpiracao, avatar } from './ui/componentes/ui.js?v=38e7358a80';
+import { icone } from './ui/componentes/icones.js?v=38e7358a80';
+import { telaLogin } from './ui/telas/login.js?v=38e7358a80';
+import { telaHoje } from './ui/telas/hoje.js?v=38e7358a80';
+import { telaClientes } from './ui/telas/clientes.js?v=38e7358a80';
+import { telaClienteForm } from './ui/telas/clienteForm.js?v=38e7358a80';
+import { telaClienteDetalhe } from './ui/telas/clienteDetalhe.js?v=38e7358a80';
+import { telaContatos } from './ui/telas/contatos.js?v=38e7358a80';
+import { telaLeads } from './ui/telas/leads.js?v=38e7358a80';
+import { telaLeadForm } from './ui/telas/leadForm.js?v=38e7358a80';
+import { telaLeadDetalhe } from './ui/telas/leadDetalhe.js?v=38e7358a80';
+import { telaPainel } from './ui/telas/painel.js?v=38e7358a80';
 
 const conteudo = document.getElementById('conteudo');
 const { features } = APP_CONFIG;
@@ -69,10 +69,12 @@ function desenharCabecalho(sessao) {
         h('a', { href: `#${m.caminho}`, dataset: { caminho: m.caminho } }, icone(m.icone), h('span', {}, m.rotulo)))))),
     h('div', { class: 'usuario' },
       botaoTema(),
-      h('span', { class: 'usuario-nome' }, sessao.nome),
-      h('button', { class: 'btn-cabecalho', type: 'button', onclick: sair, 'aria-label': 'Sair', title: 'Sair' }, icone('logOut'))));
+      h('div', { class: 'usuario-cartao' },
+        avatar(sessao.nome),
+        h('span', { class: 'usuario-nome' }, sessao.nome),
+        h('button', { class: 'btn-cabecalho btn-sair', type: 'button', onclick: sair, 'aria-label': 'Sair', title: 'Sair' }, icone('logOut')))));
 
-  if (MODO_DEMO) document.getElementById('faixa-demo').replaceChildren(h('p', {}, TEXTOS.demoAviso));
+  if (MODO_DEMO) document.getElementById('faixa-demo').replaceChildren(h('p', {}, icone('info'), h('span', {}, TEXTOS.demoAviso)));
 }
 
 function marcarMenu(caminho) {

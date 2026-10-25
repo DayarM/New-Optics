@@ -3,8 +3,8 @@
  * Cada validador devolve { valor, erros }, onde `erros` = { campo: 'texto simples' }.
  * O servidor repete as validações essenciais (nunca confie só no navegador).
  */
-import { ehDataISO } from '../core/datas.js?v=864615d145';
-import { normalizarWhatsapp } from './mensagemService.js?v=864615d145';
+import { ehDataISO } from '../core/datas.js?v=38e7358a80';
+import { normalizarWhatsapp } from './mensagemService.js?v=38e7358a80';
 
 export function normalizarTexto(t) {
   return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -141,7 +141,7 @@ export function validarLead(d, { hoje, ddi = '55' }) {
 export function gerarCSV(linhas, colunas) {
   const celula = (v) => {
     let s = v === true ? 'Sim' : v === false ? 'Não' : String(v ?? '');
-    if (/^[=+\-@]/.test(s)) s = "'" + s;           // evita fórmula ao abrir no Excel
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;       // evita fórmula ao abrir no Excel
     return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   const corpo = [colunas.map(([, t]) => t), ...linhas.map((l) => colunas.map(([k]) => l[k]))]

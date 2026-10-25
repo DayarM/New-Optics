@@ -95,4 +95,16 @@ test('utilitários: valor, período e CSV', () => {
   assert.deepEqual(diasDoPeriodo(HOJE, 3), ['2026-10-21', '2026-10-22', '2026-10-23']);
   const csv = gerarCSV([{ nome: 'Ana; "Bia"', ok: true, obs: '=1+1' }], [['nome', 'Nome'], ['ok', 'Ok'], ['obs', 'Obs']]);
   assert.equal(csv, '\ufeffNome;Ok;Obs\r\n"Ana; ""Bia""";Sim;\'=1+1');
+  // Tabula\u00e7\u00e3o no in\u00edcio tamb\u00e9m vira texto (evita f\u00f3rmula escondida no Excel).
+  assert.equal(gerarCSV([{ obs: '\t=HYPERLINK("x")' }], [['obs', 'Obs']]), '\ufeffObs\r\n"\'\t=HYPERLINK(""x"")"');
+});
+
+test('avatar: iniciais e cor estável', async () => {
+  const { iniciais, corAvatar, CORES_AVATAR } = await import('../js/services/avatarService.js');
+  assert.equal(iniciais('ana beatriz lima'), 'AL');
+  assert.equal(iniciais('  Maria  '), 'M');
+  assert.equal(iniciais('Érica de Souza'), 'ÉS');
+  assert.equal(iniciais(''), '?');
+  assert.equal(corAvatar('Yasmin'), corAvatar('Yasmin'));
+  for (const s of ['', 'a', 'Maria', 'id-123']) assert.ok(corAvatar(s) >= 0 && corAvatar(s) < CORES_AVATAR);
 });

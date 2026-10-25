@@ -1,15 +1,15 @@
 /**
  * TELA: Clientes — busca por nome ou telefone + exportação CSV.
  */
-import { h, montar } from '../../core/dom.js?v=864615d145';
-import { clientesService } from '../../services/clientesService.js?v=864615d145';
-import { buscarClientes, gerarCSV } from '../../services/validacoes.js?v=864615d145';
-import { formatarWhatsapp } from '../../services/mensagemService.js?v=864615d145';
-import { formatarData, hojeISO } from '../../core/datas.js?v=864615d145';
-import { ehVerdadeiro } from '../../services/recontatoService.js?v=864615d145';
-import { TEXTOS } from '../../config/textos.config.js?v=864615d145';
-import { carregando, falhaCarregar, comIcone, faixaCampanha, botaoNovo, confirmar } from '../componentes/ui.js?v=864615d145';
-import { icone } from '../componentes/icones.js?v=864615d145';
+import { h, montar } from '../../core/dom.js?v=38e7358a80';
+import { clientesService } from '../../services/clientesService.js?v=38e7358a80';
+import { buscarClientes, gerarCSV } from '../../services/validacoes.js?v=38e7358a80';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=38e7358a80';
+import { formatarData, hojeISO } from '../../core/datas.js?v=38e7358a80';
+import { ehVerdadeiro } from '../../services/recontatoService.js?v=38e7358a80';
+import { TEXTOS } from '../../config/textos.config.js?v=38e7358a80';
+import { carregando, falhaCarregar, comIcone, faixaCampanha, botaoNovo, confirmar, avatar } from '../componentes/ui.js?v=38e7358a80';
+import { icone } from '../componentes/icones.js?v=38e7358a80';
 
 const LIMITE = 100; // evita desenhar milhares de linhas no celular
 let ultimoTermo = ''; // a busca continua ao voltar da ficha
@@ -63,11 +63,13 @@ export async function telaClientes(container) {
 function itemCliente(c) {
   return h('li', { class: 'linha' },
     h('a', { class: 'linha-link', href: `#/clientes/${encodeURIComponent(c.id)}` },
-      h('span', { class: 'linha-nome' }, c.nome),
-      h('span', { class: 'linha-meta' },
-        h('span', { class: 'num' }, formatarWhatsapp(c.whatsapp)),
-        c.ultima_compra && h('span', { class: 'num so-tela-grande' }, `Compra em ${formatarData(c.ultima_compra)}`),
-        !ehVerdadeiro(c.consentimento) && h('span', { class: 'selo' }, 'Sem autorização'))));
+      avatar(c.nome, c.id),
+      h('span', { class: 'linha-corpo' },
+        h('span', { class: 'linha-nome' }, c.nome),
+        h('span', { class: 'linha-meta' },
+          h('span', { class: 'num' }, formatarWhatsapp(c.whatsapp)),
+          c.ultima_compra && h('span', { class: 'num so-tela-grande' }, `Compra em ${formatarData(c.ultima_compra)}`),
+          !ehVerdadeiro(c.consentimento) && h('span', { class: 'selo' }, 'Sem autorização')))));
 }
 
 async function exportar(clientes) {

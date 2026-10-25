@@ -20,7 +20,7 @@ Mini-CRM comercial da MM Óptica (Fortaleza). Usuárias: operadoras de balcão, 
 - `js/config/app.config.js` → não apagar a `apiUrl` já preenchida.
 - Nenhuma senha, token ou dado de cliente no repositório (ele é público).
 - LGPD: cliente/lead sem consentimento nunca entra em "Quem contatar hoje"; exclusão apaga o histórico e registra só o id na aba Auditoria. Receitas são dado de saúde.
-- Visual: tokens de cor em `:root` com versão clara e escura (`prefers-color-scheme` + `data-theme`). Fonte Plus Jakarta Sans. Mobile-first; testar em 390px e 1280px.
+- Visual: tokens de cor em `:root` com versão clara e escura (`prefers-color-scheme` + `data-theme`). Fontes: Bricolage Grotesque (títulos) e DM Sans (texto). Cores da marca: violeta noite `#241046`, ouro `#F5B82E`, violeta vivo `#6D3FD0`, verde-água `#0E8F7A`. Barra lateral no computador (≥900px), abas embaixo no celular. Mobile-first; testar em 390px e 1280px.
 - Planilha: colunas novas só no FINAL das abas (definidas em `ABAS` no `Code.gs`).
 
 ## Comandos

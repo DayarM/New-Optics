@@ -1,9 +1,15 @@
 /**
  * Componentes reutilizáveis de interface.
  */
-import { h, mostrarErrosCampos } from '../../core/dom.js?v=864615d145';
-import { AppError, mensagemAmigavel } from '../../core/erros.js?v=864615d145';
-import { icone } from './icones.js?v=864615d145';
+import { h, mostrarErrosCampos } from '../../core/dom.js?v=38e7358a80';
+import { AppError, mensagemAmigavel } from '../../core/erros.js?v=38e7358a80';
+import { icone } from './icones.js?v=38e7358a80';
+import { iniciais, corAvatar } from '../../services/avatarService.js?v=38e7358a80';
+
+/** Círculo com as iniciais. `semente` escolhe a cor (ex.: id da pessoa ou operador). */
+export function avatar(nome, semente = nome) {
+  return h('span', { class: `avatar av-${corAvatar(semente)}`, 'aria-hidden': 'true' }, iniciais(nome));
+}
 
 /** Conteúdo de botão/link com ícone + texto, sempre alinhados e com 8px de espaço. */
 export function comIcone(nome, texto) {

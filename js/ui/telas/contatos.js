@@ -1,11 +1,11 @@
 /**
  * TELA: Contatos feitos — histórico de todos os contatos registrados.
  */
-import { h, montar } from '../../core/dom.js?v=864615d145';
-import { dataService } from '../../data/dataService.js?v=864615d145';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=864615d145';
-import { formatarData, hojeISO, somarDias } from '../../core/datas.js?v=864615d145';
-import { carregando, falhaCarregar, chips, campo } from '../componentes/ui.js?v=864615d145';
+import { h, montar } from '../../core/dom.js?v=38e7358a80';
+import { dataService } from '../../data/dataService.js?v=38e7358a80';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=38e7358a80';
+import { formatarData, hojeISO, somarDias } from '../../core/datas.js?v=38e7358a80';
+import { carregando, falhaCarregar, chips, campo, avatar } from '../componentes/ui.js?v=38e7358a80';
 
 const filtro = { periodo: 7, operador: '', resultado: '' };
 const LIMITE = 200;
@@ -38,6 +38,7 @@ export async function telaContatos(container) {
           const id = ehLead ? c.lead_id : c.cliente_id;
           const nome = nomes.get(id) || 'Cadastro excluído';
           return h('li', { class: 'linha linha-bloco' },
+            avatar(nome, id),
             h('div', { class: 'linha-info' },
               h('p', { class: 'linha-nome' },
                 nomes.has(id) ? h('a', { href: `#/${ehLead ? 'leads' : 'clientes'}/${encodeURIComponent(id)}` }, nome) : nome,

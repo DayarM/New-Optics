@@ -2,9 +2,9 @@
  * Login/logout. A senha só trafega no momento do login (HTTPS) e é
  * conferida no servidor contra um hash — nunca fica salva no aparelho.
  */
-import { dataService } from '../data/dataService.js?v=864615d145';
-import { salvarSessao, lerSessao, limparSessao } from '../core/sessao.js?v=864615d145';
-import { AppError } from '../core/erros.js?v=864615d145';
+import { dataService } from '../data/dataService.js?v=38e7358a80';
+import { salvarSessao, lerSessao, limparSessao } from '../core/sessao.js?v=38e7358a80';
+import { AppError } from '../core/erros.js?v=38e7358a80';
 
 export const authService = {
   async entrar(usuario, senha) {

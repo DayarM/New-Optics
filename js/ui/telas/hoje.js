@@ -2,11 +2,11 @@
  * TELA: Quem contatar hoje (tela inicial) — clientes e leads.
  * Ação principal de cada linha: chamar no WhatsApp. Depois, "Contatei".
  */
-import { h, montar } from '../../core/dom.js?v=864615d145';
-import { clientesService } from '../../services/clientesService.js?v=864615d145';
-import { formatarData } from '../../core/datas.js?v=864615d145';
-import { carregando, falhaCarregar, avisar, comIcone, botaoNovo } from '../componentes/ui.js?v=864615d145';
-import { abrirPainelContato } from '../componentes/painelContato.js?v=864615d145';
+import { h, montar } from '../../core/dom.js?v=38e7358a80';
+import { clientesService } from '../../services/clientesService.js?v=38e7358a80';
+import { formatarData } from '../../core/datas.js?v=38e7358a80';
+import { carregando, falhaCarregar, avisar, comIcone, botaoNovo, avatar } from '../componentes/ui.js?v=38e7358a80';
+import { abrirPainelContato } from '../componentes/painelContato.js?v=38e7358a80';
 
 export async function telaHoje(container) {
   montar(container, carregando('Montando a lista de hoje…'));
@@ -58,6 +58,7 @@ function linha({ tipo, pessoa, pendencia }, aoContatar) {
   const href = `#/${ehLead ? 'leads' : 'clientes'}/${encodeURIComponent(pessoa.id)}`;
 
   return h('li', { class: 'linha linha-contato', dataset: { regra: pendencia.regra } },
+    avatar(pessoa.nome, pessoa.id),
     h('div', { class: 'linha-info' },
       h('a', { class: 'linha-nome', href }, pessoa.nome, ehLead && h('span', { class: 'selo selo-lead' }, 'Lead')),
       h('p', { class: 'linha-sub' },

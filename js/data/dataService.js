@@ -10,10 +10,10 @@
  * Também mantém um cache em memória: a lista do dia é calculada no
  * aparelho, sem precisar ir ao servidor a cada clique.
  */
-import { APP_CONFIG, MODO_DEMO } from '../config/app.config.js?v=864615d145';
-import { AppError } from '../core/erros.js?v=864615d145';
-import { criarSheetsAdapter } from './adapters/sheetsAdapter.js?v=864615d145';
-import { criarDemoAdapter } from './adapters/demoAdapter.js?v=864615d145';
+import { APP_CONFIG, MODO_DEMO } from '../config/app.config.js?v=38e7358a80';
+import { AppError } from '../core/erros.js?v=38e7358a80';
+import { criarSheetsAdapter } from './adapters/sheetsAdapter.js?v=38e7358a80';
+import { criarDemoAdapter } from './adapters/demoAdapter.js?v=38e7358a80';
 
 function escolherAdapter() {
   if (MODO_DEMO) return criarDemoAdapter();

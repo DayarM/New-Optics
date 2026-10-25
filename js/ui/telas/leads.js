@@ -1,14 +1,14 @@
 /**
  * TELA: Leads (Fase 2) — funil com filtro por status e busca.
  */
-import { h, montar } from '../../core/dom.js?v=864615d145';
-import { leadsService } from '../../services/leadsService.js?v=864615d145';
-import { buscarClientes } from '../../services/validacoes.js?v=864615d145';
-import { formatarWhatsapp } from '../../services/mensagemService.js?v=864615d145';
-import { formatarData } from '../../core/datas.js?v=864615d145';
-import { OPCOES } from '../../config/textos.config.js?v=864615d145';
-import { carregando, falhaCarregar, botaoNovo, chips } from '../componentes/ui.js?v=864615d145';
-import { icone } from '../componentes/icones.js?v=864615d145';
+import { h, montar } from '../../core/dom.js?v=38e7358a80';
+import { leadsService } from '../../services/leadsService.js?v=38e7358a80';
+import { buscarClientes } from '../../services/validacoes.js?v=38e7358a80';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=38e7358a80';
+import { formatarData } from '../../core/datas.js?v=38e7358a80';
+import { OPCOES } from '../../config/textos.config.js?v=38e7358a80';
+import { carregando, falhaCarregar, botaoNovo, chips, avatar } from '../componentes/ui.js?v=38e7358a80';
+import { icone } from '../componentes/icones.js?v=38e7358a80';
 
 let filtroStatus = 'ativos';
 let ultimoTermo = '';
@@ -57,10 +57,12 @@ export async function telaLeads(container) {
 function itemLead(l) {
   return h('li', { class: 'linha' },
     h('a', { class: 'linha-link', href: `#/leads/${encodeURIComponent(l.id)}` },
-      h('span', { class: 'linha-nome' }, l.nome,
-        h('span', { class: 'linha-detalhe' }, [l.interesse, l.origem].filter(Boolean).join(', '))),
-      h('span', { class: 'linha-meta' },
-        h('span', { class: 'num so-tela-grande' }, formatarWhatsapp(l.whatsapp)),
-        l.proximo_contato && h('span', { class: 'num so-tela-grande' }, `Retorno ${formatarData(l.proximo_contato)}`),
-        h('span', { class: `selo selo-status st-${l.status}` }, ROTULO_STATUS[l.status] || l.status))));
+      avatar(l.nome, l.id),
+      h('span', { class: 'linha-corpo' },
+        h('span', { class: 'linha-nome' }, l.nome,
+          h('span', { class: 'linha-detalhe' }, [l.interesse, l.origem].filter(Boolean).join(', '))),
+        h('span', { class: 'linha-meta' },
+          h('span', { class: 'num so-tela-grande' }, formatarWhatsapp(l.whatsapp)),
+          l.proximo_contato && h('span', { class: 'num so-tela-grande' }, `Retorno ${formatarData(l.proximo_contato)}`),
+          h('span', { class: `selo selo-status st-${l.status}` }, ROTULO_STATUS[l.status] || l.status)))));
 }

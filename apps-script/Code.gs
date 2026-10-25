@@ -15,7 +15,7 @@ var CONFIG = {
   FUSO: 'America/Fortaleza',
   SESSAO_HORAS: 12,
   MAX_FALHAS_LOGIN: 5,
-  BLOQUEIO_MINUTOS: 5,
+  BLOQUEIO_MINUTOS: 15,  // depois de MAX_FALHAS_LOGIN senhas erradas
   ESPERA_TRAVA_MS: 15000,
   FASES: { leads: true }, // Fase 2 ligada: cria a aba Leads ao rodar "Preparar planilha"
 };
@@ -369,8 +369,8 @@ function paraCelula_(coluna, v) {
   if (COLUNAS_SIM_NAO.indexOf(coluna) >= 0) return v === true ? 'SIM' : 'NÃO';
   if (v === null || v === undefined) return '';
   var s = String(v);
-  // Apóstrofo força texto: impede fórmulas (=, +, -, @) e mantém graus como "-2,25".
-  return /^[=+\-@]/.test(s) ? "'" + s : s;
+  // Apóstrofo força texto: impede fórmulas (=, +, -, @, tab, quebra) e mantém graus como "-2,25".
+  return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
 }
 
 function linhaDoId_(nome, id) {
