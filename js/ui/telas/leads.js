@@ -1,14 +1,14 @@
 /**
  * TELA: Leads (Fase 2) — funil com filtro por status e busca.
  */
-import { h, montar } from '../../core/dom.js?v=38e7358a80';
-import { leadsService } from '../../services/leadsService.js?v=38e7358a80';
-import { buscarClientes } from '../../services/validacoes.js?v=38e7358a80';
-import { formatarWhatsapp } from '../../services/mensagemService.js?v=38e7358a80';
-import { formatarData } from '../../core/datas.js?v=38e7358a80';
-import { OPCOES } from '../../config/textos.config.js?v=38e7358a80';
-import { carregando, falhaCarregar, botaoNovo, chips, avatar } from '../componentes/ui.js?v=38e7358a80';
-import { icone } from '../componentes/icones.js?v=38e7358a80';
+import { h, montar } from '../../core/dom.js?v=9ece4c76cc';
+import { leadsService } from '../../services/leadsService.js?v=9ece4c76cc';
+import { buscarClientes } from '../../services/validacoes.js?v=9ece4c76cc';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=9ece4c76cc';
+import { formatarData } from '../../core/datas.js?v=9ece4c76cc';
+import { OPCOES } from '../../config/textos.config.js?v=9ece4c76cc';
+import { carregando, falhaCarregar, botaoNovo, chips, avatar } from '../componentes/ui.js?v=9ece4c76cc';
+import { icone } from '../componentes/icones.js?v=9ece4c76cc';
 
 let filtroStatus = 'ativos';
 let ultimoTermo = '';

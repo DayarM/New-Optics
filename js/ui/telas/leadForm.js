@@ -1,15 +1,15 @@
 /**
  * TELA: Novo lead / Editar lead.
  */
-import { h, montar, lerFormulario } from '../../core/dom.js?v=38e7358a80';
-import { irPara } from '../../core/router.js?v=38e7358a80';
-import { leadsService } from '../../services/leadsService.js?v=38e7358a80';
-import { formatarWhatsapp } from '../../services/mensagemService.js?v=38e7358a80';
-import { ehVerdadeiro } from '../../services/recontatoService.js?v=38e7358a80';
-import { hojeISO } from '../../core/datas.js?v=38e7358a80';
-import { TEXTOS, OPCOES } from '../../config/textos.config.js?v=38e7358a80';
+import { h, montar, lerFormulario } from '../../core/dom.js?v=9ece4c76cc';
+import { irPara } from '../../core/router.js?v=9ece4c76cc';
+import { leadsService } from '../../services/leadsService.js?v=9ece4c76cc';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=9ece4c76cc';
+import { ehVerdadeiro } from '../../services/recontatoService.js?v=9ece4c76cc';
+import { hojeISO } from '../../core/datas.js?v=9ece4c76cc';
+import { TEXTOS, OPCOES } from '../../config/textos.config.js?v=9ece4c76cc';
 import { campo, maisDetalhes, avisar, tratarErro, comCarregamento, carregando, falhaCarregar,
-  campoConsentimento, faixaCampanha, comIcone } from '../componentes/ui.js?v=38e7358a80';
+  campoConsentimento, faixaCampanha, comIcone } from '../componentes/ui.js?v=9ece4c76cc';
 
 export async function telaLeadForm(container, { id } = {}) {
   let anterior = null;

@@ -2,11 +2,11 @@
  * TELA: Quem contatar hoje (tela inicial) — clientes e leads.
  * Ação principal de cada linha: chamar no WhatsApp. Depois, "Contatei".
  */
-import { h, montar } from '../../core/dom.js?v=38e7358a80';
-import { clientesService } from '../../services/clientesService.js?v=38e7358a80';
-import { formatarData } from '../../core/datas.js?v=38e7358a80';
-import { carregando, falhaCarregar, avisar, comIcone, botaoNovo, avatar } from '../componentes/ui.js?v=38e7358a80';
-import { abrirPainelContato } from '../componentes/painelContato.js?v=38e7358a80';
+import { h, montar } from '../../core/dom.js?v=9ece4c76cc';
+import { clientesService } from '../../services/clientesService.js?v=9ece4c76cc';
+import { formatarData } from '../../core/datas.js?v=9ece4c76cc';
+import { carregando, falhaCarregar, avisar, comIcone, botaoNovo, avatar } from '../componentes/ui.js?v=9ece4c76cc';
+import { abrirPainelContato } from '../componentes/painelContato.js?v=9ece4c76cc';
 
 export async function telaHoje(container) {
   montar(container, carregando('Montando a lista de hoje…'));

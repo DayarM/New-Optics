@@ -1,4 +1,4 @@
-# MM Óptica · CRM
+# MM Ótica · CRM
 
 Mini-CRM em SPA (HTML + CSS + JS puro) com dados no Google Sheets.
 Telas: **Hoje** (quem contatar), **Clientes**, **Leads**, **Contatos** (histórico) e **Painel** (indicadores).
@@ -42,7 +42,7 @@ npm test             # 26 testes das regras + teste do Code.gs com planilha simu
 ## Publicar (gratuito)
 
 ### 1. Planilha e backend
-1. Crie uma planilha nova no Google Drive (ex.: "CRM MM Óptica").
+1. Crie uma planilha nova no Google Drive (ex.: "CRM MM Ótica").
 2. **Extensões > Apps Script**. Apague o conteúdo e cole `apps-script/Code.gs`. Salve.
 3. Volte à planilha e recarregue a página. Aparece o menu **CRM Ótica**.
 4. **CRM Ótica > 1. Preparar planilha** (o Google pede autorização na primeira vez:

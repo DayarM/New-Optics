@@ -5,7 +5,7 @@
  *
  * As regras vêm de js/config/regras.config.js.
  */
-import { somarDias, diferencaDias, maisRecente, ehAniversario, ehDataISO } from '../core/datas.js?v=38e7358a80';
+import { somarDias, diferencaDias, maisRecente, ehAniversario, ehDataISO } from '../core/datas.js?v=9ece4c76cc';
 
 /**
  * Datas-base usadas pelas regras do tipo 'aposData'.

@@ -2,7 +2,7 @@
   "name": "mm-optica-crm",
   "private": true,
   "type": "module",
-  "description": "Mini-CRM da MM Óptica — SPA vanilla + Google Sheets",
+  "description": "Mini-CRM da MM Ótica — SPA vanilla + Google Sheets",
   "scripts": {
     "versao": "node scripts/versao.mjs",
     "test": "node scripts/versao.mjs && node --test tests/*.test.js && node tests/backend-simulado.cjs",

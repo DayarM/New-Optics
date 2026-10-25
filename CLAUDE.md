@@ -1,7 +1,7 @@
-# MM Óptica · CRM — instruções para o Claude Code
+# MM Ótica · CRM — instruções para o Claude Code
 
 ## O que é
-Mini-CRM comercial da MM Óptica (Fortaleza). Usuárias: operadoras de balcão, pouca familiaridade técnica. Princípio: **simples primeiro**. Toda a interface em português do Brasil, sem jargão técnico.
+Mini-CRM comercial da MM Ótica (Fortaleza). Usuárias: operadoras de balcão, pouca familiaridade técnica. Princípio: **simples primeiro**. Toda a interface em português do Brasil, sem jargão técnico.
 
 - Site: GitHub Pages, repositório `DayarM/New-Optics`, branch `main`, raiz do repositório. Endereço: https://dayarm.github.io/New-Optics/
 - Dados: Google Sheets + Apps Script (`apps-script/Code.gs`), chamado por POST `text/plain`.

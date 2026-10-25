@@ -2,24 +2,24 @@
  * PONTO DE ENTRADA DO APP
  * Liga sessão, tema, menu e rotas. As telas ficam em js/ui/telas.
  */
-import { h, montar } from './core/dom.js?v=38e7358a80';
-import { rota, iniciarRoteador, irPara, caminhoAtual } from './core/router.js?v=38e7358a80';
-import { APP_CONFIG, MODO_DEMO } from './config/app.config.js?v=38e7358a80';
-import { TEXTOS } from './config/textos.config.js?v=38e7358a80';
-import { authService } from './services/authService.js?v=38e7358a80';
-import { aplicarTema, alternarTema, temaAtual, temaSalvo } from './core/tema.js?v=38e7358a80';
-import { avisar, configurarExpiracao, avatar } from './ui/componentes/ui.js?v=38e7358a80';
-import { icone } from './ui/componentes/icones.js?v=38e7358a80';
-import { telaLogin } from './ui/telas/login.js?v=38e7358a80';
-import { telaHoje } from './ui/telas/hoje.js?v=38e7358a80';
-import { telaClientes } from './ui/telas/clientes.js?v=38e7358a80';
-import { telaClienteForm } from './ui/telas/clienteForm.js?v=38e7358a80';
-import { telaClienteDetalhe } from './ui/telas/clienteDetalhe.js?v=38e7358a80';
-import { telaContatos } from './ui/telas/contatos.js?v=38e7358a80';
-import { telaLeads } from './ui/telas/leads.js?v=38e7358a80';
-import { telaLeadForm } from './ui/telas/leadForm.js?v=38e7358a80';
-import { telaLeadDetalhe } from './ui/telas/leadDetalhe.js?v=38e7358a80';
-import { telaPainel } from './ui/telas/painel.js?v=38e7358a80';
+import { h, montar } from './core/dom.js?v=9ece4c76cc';
+import { rota, iniciarRoteador, irPara, caminhoAtual } from './core/router.js?v=9ece4c76cc';
+import { APP_CONFIG, MODO_DEMO } from './config/app.config.js?v=9ece4c76cc';
+import { TEXTOS } from './config/textos.config.js?v=9ece4c76cc';
+import { authService } from './services/authService.js?v=9ece4c76cc';
+import { aplicarTema, alternarTema, temaAtual, temaSalvo } from './core/tema.js?v=9ece4c76cc';
+import { avisar, configurarExpiracao, avatar } from './ui/componentes/ui.js?v=9ece4c76cc';
+import { icone } from './ui/componentes/icones.js?v=9ece4c76cc';
+import { telaLogin } from './ui/telas/login.js?v=9ece4c76cc';
+import { telaHoje } from './ui/telas/hoje.js?v=9ece4c76cc';
+import { telaClientes } from './ui/telas/clientes.js?v=9ece4c76cc';
+import { telaClienteForm } from './ui/telas/clienteForm.js?v=9ece4c76cc';
+import { telaClienteDetalhe } from './ui/telas/clienteDetalhe.js?v=9ece4c76cc';
+import { telaContatos } from './ui/telas/contatos.js?v=9ece4c76cc';
+import { telaLeads } from './ui/telas/leads.js?v=9ece4c76cc';
+import { telaLeadForm } from './ui/telas/leadForm.js?v=9ece4c76cc';
+import { telaLeadDetalhe } from './ui/telas/leadDetalhe.js?v=9ece4c76cc';
+import { telaPainel } from './ui/telas/painel.js?v=9ece4c76cc';
 
 const conteudo = document.getElementById('conteudo');
 const { features } = APP_CONFIG;

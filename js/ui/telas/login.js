@@ -1,12 +1,12 @@
 /**
  * TELA: Entrar.
  */
-import { h, montar, lerFormulario } from '../../core/dom.js?v=38e7358a80';
-import { authService } from '../../services/authService.js?v=38e7358a80';
-import { APP_CONFIG, MODO_DEMO } from '../../config/app.config.js?v=38e7358a80';
-import { TEXTOS } from '../../config/textos.config.js?v=38e7358a80';
-import { campo, comCarregamento } from '../componentes/ui.js?v=38e7358a80';
-import { mensagemAmigavel } from '../../core/erros.js?v=38e7358a80';
+import { h, montar, lerFormulario } from '../../core/dom.js?v=9ece4c76cc';
+import { authService } from '../../services/authService.js?v=9ece4c76cc';
+import { APP_CONFIG, MODO_DEMO } from '../../config/app.config.js?v=9ece4c76cc';
+import { TEXTOS } from '../../config/textos.config.js?v=9ece4c76cc';
+import { campo, comCarregamento } from '../componentes/ui.js?v=9ece4c76cc';
+import { mensagemAmigavel } from '../../core/erros.js?v=9ece4c76cc';
 
 export function telaLogin(container, aoEntrar) {
   const erro = h('p', { class: 'login-erro', role: 'alert' });

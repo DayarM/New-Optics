@@ -2,14 +2,14 @@
  * TELA: Painel (Fase 3) — indicadores de contatos, leads e compras.
  * Gráficos em SVG puro, sem biblioteca externa.
  */
-import { h, montar } from '../../core/dom.js?v=38e7358a80';
-import { dataService } from '../../data/dataService.js?v=38e7358a80';
-import { clientesService } from '../../services/clientesService.js?v=38e7358a80';
-import { calcularIndicadores, formatarMoeda } from '../../services/indicadoresService.js?v=38e7358a80';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=38e7358a80';
-import { OPCOES } from '../../config/textos.config.js?v=38e7358a80';
-import { hojeISO, formatarData } from '../../core/datas.js?v=38e7358a80';
-import { carregando, falhaCarregar, chips } from '../componentes/ui.js?v=38e7358a80';
+import { h, montar } from '../../core/dom.js?v=9ece4c76cc';
+import { dataService } from '../../data/dataService.js?v=9ece4c76cc';
+import { clientesService } from '../../services/clientesService.js?v=9ece4c76cc';
+import { calcularIndicadores, formatarMoeda } from '../../services/indicadoresService.js?v=9ece4c76cc';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=9ece4c76cc';
+import { OPCOES } from '../../config/textos.config.js?v=9ece4c76cc';
+import { hojeISO, formatarData } from '../../core/datas.js?v=9ece4c76cc';
+import { carregando, falhaCarregar, chips } from '../componentes/ui.js?v=9ece4c76cc';
 
 let dias = 7;
 const NS = 'http://www.w3.org/2000/svg';

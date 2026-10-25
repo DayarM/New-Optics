@@ -101,8 +101,8 @@ test('normaliza número e monta link wa.me', () => {
   assert.equal(normalizarWhatsapp('085 98861-8282'), '5585988618282');
   assert.equal(normalizarWhatsapp('123'), '');
   assert.equal(formatarWhatsapp('5585988618282'), '(85) 98861-8282');
-  const msg = montarMensagem('Olá, {primeiroNome}! Aqui é da {loja}.', { nome: 'ANA souza' }, { nome: 'MM Óptica' });
-  assert.equal(msg, 'Olá, Ana! Aqui é da MM Óptica.');
+  const msg = montarMensagem('Olá, {primeiroNome}! Aqui é da {loja}.', { nome: 'ANA souza' }, { nome: 'MM Ótica' });
+  assert.equal(msg, 'Olá, Ana! Aqui é da MM Ótica.');
   assert.match(linkWhatsapp('85988618282', msg), /^https:\/\/wa\.me\/5585988618282\?text=Ol%C3%A1/);
 });
 

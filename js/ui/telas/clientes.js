@@ -1,15 +1,15 @@
 /**
  * TELA: Clientes — busca por nome ou telefone + exportação CSV.
  */
-import { h, montar } from '../../core/dom.js?v=38e7358a80';
-import { clientesService } from '../../services/clientesService.js?v=38e7358a80';
-import { buscarClientes, gerarCSV } from '../../services/validacoes.js?v=38e7358a80';
-import { formatarWhatsapp } from '../../services/mensagemService.js?v=38e7358a80';
-import { formatarData, hojeISO } from '../../core/datas.js?v=38e7358a80';
-import { ehVerdadeiro } from '../../services/recontatoService.js?v=38e7358a80';
-import { TEXTOS } from '../../config/textos.config.js?v=38e7358a80';
-import { carregando, falhaCarregar, comIcone, faixaCampanha, botaoNovo, confirmar, avatar } from '../componentes/ui.js?v=38e7358a80';
-import { icone } from '../componentes/icones.js?v=38e7358a80';
+import { h, montar } from '../../core/dom.js?v=9ece4c76cc';
+import { clientesService } from '../../services/clientesService.js?v=9ece4c76cc';
+import { buscarClientes, gerarCSV } from '../../services/validacoes.js?v=9ece4c76cc';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=9ece4c76cc';
+import { formatarData, hojeISO } from '../../core/datas.js?v=9ece4c76cc';
+import { ehVerdadeiro } from '../../services/recontatoService.js?v=9ece4c76cc';
+import { TEXTOS } from '../../config/textos.config.js?v=9ece4c76cc';
+import { carregando, falhaCarregar, comIcone, faixaCampanha, botaoNovo, confirmar, avatar } from '../componentes/ui.js?v=9ece4c76cc';
+import { icone } from '../componentes/icones.js?v=9ece4c76cc';
 
 const LIMITE = 100; // evita desenhar milhares de linhas no celular
 let ultimoTermo = ''; // a busca continua ao voltar da ficha

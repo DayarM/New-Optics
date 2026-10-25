@@ -1,5 +1,5 @@
 /**
- * MM Óptica · CRM — Backend (Google Apps Script + Google Sheets)
+ * MM Ótica · CRM — Backend (Google Apps Script + Google Sheets)
  * ==============================================================
  * Cole este arquivo em Extensões > Apps Script da planilha.
  * Depois, na planilha: menu "CRM Ótica" > "1. Preparar planilha"

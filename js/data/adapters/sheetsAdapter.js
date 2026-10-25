@@ -5,8 +5,8 @@
  * Assim o navegador não faz a requisição de pré-verificação (CORS preflight),
  * que o Apps Script não sabe responder. O corpo continua sendo JSON.
  */
-import { AppError } from '../../core/erros.js?v=38e7358a80';
-import { lerSessao } from '../../core/sessao.js?v=38e7358a80';
+import { AppError } from '../../core/erros.js?v=9ece4c76cc';
+import { lerSessao } from '../../core/sessao.js?v=9ece4c76cc';
 
 export function criarSheetsAdapter({ apiUrl, timeoutMs }) {
   async function chamar(acao, dados = {}) {

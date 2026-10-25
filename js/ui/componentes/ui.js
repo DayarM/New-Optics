@@ -1,10 +1,10 @@
 /**
  * Componentes reutilizáveis de interface.
  */
-import { h, mostrarErrosCampos } from '../../core/dom.js?v=38e7358a80';
-import { AppError, mensagemAmigavel } from '../../core/erros.js?v=38e7358a80';
-import { icone } from './icones.js?v=38e7358a80';
-import { iniciais, corAvatar } from '../../services/avatarService.js?v=38e7358a80';
+import { h, mostrarErrosCampos } from '../../core/dom.js?v=9ece4c76cc';
+import { AppError, mensagemAmigavel } from '../../core/erros.js?v=9ece4c76cc';
+import { icone } from './icones.js?v=9ece4c76cc';
+import { iniciais, corAvatar } from '../../services/avatarService.js?v=9ece4c76cc';
 
 /** Círculo com as iniciais. `semente` escolhe a cor (ex.: id da pessoa ou operador). */
 export function avatar(nome, semente = nome) {

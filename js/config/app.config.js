@@ -19,7 +19,7 @@ export const APP_CONFIG = {
 
   /** Dados da loja (usados nas mensagens de WhatsApp e no rodapé). */
   loja: {
-    nome: 'MM Óptica',
+    nome: 'MM Ótica',
     slogan: 'Sua visão em boas mãos',
     whatsapp: '(85) 98861-8282',
     instagram: '@mm_optica',
