@@ -3,19 +3,19 @@
  * Reúne dados, compras, receitas e histórico de contatos.
  * Ação principal: chamar no WhatsApp.
  */
-import { h, montar, lerFormulario } from '../../core/dom.js';
-import { irPara } from '../../core/router.js';
-import { clientesService } from '../../services/clientesService.js';
-import { formatarWhatsapp } from '../../services/mensagemService.js';
-import { ehVerdadeiro } from '../../services/recontatoService.js';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js';
-import { TEXTOS, OPCOES } from '../../config/textos.config.js';
-import { formatarData, hojeISO, distanciaTexto } from '../../core/datas.js';
+import { h, montar, lerFormulario } from '../../core/dom.js?v=864615d145';
+import { irPara } from '../../core/router.js?v=864615d145';
+import { clientesService } from '../../services/clientesService.js?v=864615d145';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=864615d145';
+import { ehVerdadeiro } from '../../services/recontatoService.js?v=864615d145';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=864615d145';
+import { TEXTOS, OPCOES } from '../../config/textos.config.js?v=864615d145';
+import { formatarData, hojeISO, distanciaTexto } from '../../core/datas.js?v=864615d145';
 import {
   carregando, falhaCarregar, avisar, tratarErro, comCarregamento,
   campo, maisDetalhes, abrirPainel, confirmar, comIcone,
-} from '../componentes/ui.js';
-import { abrirPainelContato } from '../componentes/painelContato.js';
+} from '../componentes/ui.js?v=864615d145';
+import { abrirPainelContato } from '../componentes/painelContato.js?v=864615d145';
 
 let abaAtiva = 'compras';
 

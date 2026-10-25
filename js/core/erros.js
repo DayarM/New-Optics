@@ -3,7 +3,7 @@
  * Toda falha vira um AppError com um `codigo`. A interface nunca mostra
  * mensagens técnicas: ela traduz o código via MENSAGENS_ERRO.
  */
-import { MENSAGENS_ERRO } from '../config/textos.config.js';
+import { MENSAGENS_ERRO } from '../config/textos.config.js?v=864615d145';
 
 export class AppError extends Error {
   /**

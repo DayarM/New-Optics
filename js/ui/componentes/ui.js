@@ -1,9 +1,9 @@
 /**
  * Componentes reutilizáveis de interface.
  */
-import { h, mostrarErrosCampos } from '../../core/dom.js';
-import { AppError, mensagemAmigavel } from '../../core/erros.js';
-import { icone } from './icones.js';
+import { h, mostrarErrosCampos } from '../../core/dom.js?v=864615d145';
+import { AppError, mensagemAmigavel } from '../../core/erros.js?v=864615d145';
+import { icone } from './icones.js?v=864615d145';
 
 /** Conteúdo de botão/link com ícone + texto, sempre alinhados e com 8px de espaço. */
 export function comIcone(nome, texto) {

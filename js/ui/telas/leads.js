@@ -1,14 +1,14 @@
 /**
  * TELA: Leads (Fase 2) — funil com filtro por status e busca.
  */
-import { h, montar } from '../../core/dom.js';
-import { leadsService } from '../../services/leadsService.js';
-import { buscarClientes } from '../../services/validacoes.js';
-import { formatarWhatsapp } from '../../services/mensagemService.js';
-import { formatarData } from '../../core/datas.js';
-import { OPCOES } from '../../config/textos.config.js';
-import { carregando, falhaCarregar, botaoNovo, chips } from '../componentes/ui.js';
-import { icone } from '../componentes/icones.js';
+import { h, montar } from '../../core/dom.js?v=864615d145';
+import { leadsService } from '../../services/leadsService.js?v=864615d145';
+import { buscarClientes } from '../../services/validacoes.js?v=864615d145';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=864615d145';
+import { formatarData } from '../../core/datas.js?v=864615d145';
+import { OPCOES } from '../../config/textos.config.js?v=864615d145';
+import { carregando, falhaCarregar, botaoNovo, chips } from '../componentes/ui.js?v=864615d145';
+import { icone } from '../componentes/icones.js?v=864615d145';
 
 let filtroStatus = 'ativos';
 let ultimoTermo = '';

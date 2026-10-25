@@ -3,14 +3,14 @@
  * Valida (funções puras de validacoes.js), aplica regras e chama o dataService.
  * As telas só falam com este serviço — nunca com o dataService direto para gravar.
  */
-import { dataService } from '../data/dataService.js';
-import { APP_CONFIG } from '../config/app.config.js';
-import { REGRAS_RECONTATO, MENSAGENS_WHATSAPP } from '../config/regras.config.js';
-import { AppError } from '../core/erros.js';
-import { hojeISO, ehDataISO } from '../core/datas.js';
-import { validarCliente, validarCompra, validarReceita } from './validacoes.js';
-import { gerarListaDoDia, calcularReagendamento, agruparHistorico, ehVerdadeiro, statusLeadAposContato } from './recontatoService.js';
-import { montarMensagem, linkWhatsapp } from './mensagemService.js';
+import { dataService } from '../data/dataService.js?v=864615d145';
+import { APP_CONFIG } from '../config/app.config.js?v=864615d145';
+import { REGRAS_RECONTATO, MENSAGENS_WHATSAPP } from '../config/regras.config.js?v=864615d145';
+import { AppError } from '../core/erros.js?v=864615d145';
+import { hojeISO, ehDataISO } from '../core/datas.js?v=864615d145';
+import { validarCliente, validarCompra, validarReceita } from './validacoes.js?v=864615d145';
+import { gerarListaDoDia, calcularReagendamento, agruparHistorico, ehVerdadeiro, statusLeadAposContato } from './recontatoService.js?v=864615d145';
+import { montarMensagem, linkWhatsapp } from './mensagemService.js?v=864615d145';
 
 function exigirValido({ valor, erros }) {
   if (Object.keys(erros).length) throw new AppError('DADOS_INVALIDOS', { campos: erros });

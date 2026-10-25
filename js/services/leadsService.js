@@ -2,12 +2,12 @@
  * Regras de negócio de LEADS (Fase 2).
  * Valida (validacoes.js), registra datas de consentimento e chama o dataService.
  */
-import { dataService } from '../data/dataService.js';
-import { APP_CONFIG } from '../config/app.config.js';
-import { AppError } from '../core/erros.js';
-import { hojeISO } from '../core/datas.js';
-import { validarLead } from './validacoes.js';
-import { ehVerdadeiro } from './recontatoService.js';
+import { dataService } from '../data/dataService.js?v=864615d145';
+import { APP_CONFIG } from '../config/app.config.js?v=864615d145';
+import { AppError } from '../core/erros.js?v=864615d145';
+import { hojeISO } from '../core/datas.js?v=864615d145';
+import { validarLead } from './validacoes.js?v=864615d145';
+import { ehVerdadeiro } from './recontatoService.js?v=864615d145';
 
 export const leadsService = {
   async todos({ forcar = false } = {}) {

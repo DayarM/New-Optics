@@ -2,14 +2,14 @@
  * TELA: Painel (Fase 3) — indicadores de contatos, leads e compras.
  * Gráficos em SVG puro, sem biblioteca externa.
  */
-import { h, montar } from '../../core/dom.js';
-import { dataService } from '../../data/dataService.js';
-import { clientesService } from '../../services/clientesService.js';
-import { calcularIndicadores, formatarMoeda } from '../../services/indicadoresService.js';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js';
-import { OPCOES } from '../../config/textos.config.js';
-import { hojeISO, formatarData } from '../../core/datas.js';
-import { carregando, falhaCarregar, chips } from '../componentes/ui.js';
+import { h, montar } from '../../core/dom.js?v=864615d145';
+import { dataService } from '../../data/dataService.js?v=864615d145';
+import { clientesService } from '../../services/clientesService.js?v=864615d145';
+import { calcularIndicadores, formatarMoeda } from '../../services/indicadoresService.js?v=864615d145';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=864615d145';
+import { OPCOES } from '../../config/textos.config.js?v=864615d145';
+import { hojeISO, formatarData } from '../../core/datas.js?v=864615d145';
+import { carregando, falhaCarregar, chips } from '../componentes/ui.js?v=864615d145';
 
 let dias = 7;
 const NS = 'http://www.w3.org/2000/svg';

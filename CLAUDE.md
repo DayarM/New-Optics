@@ -25,6 +25,7 @@ Mini-CRM comercial da MM Óptica (Fortaleza). Usuárias: operadoras de balcão, 
 
 ## Comandos
 - Testes: `npm test` (Node 18+). Rodar antes de todo commit; não publicar com teste falhando.
+- Proteção contra cache: todo import relativo e os `<script>`/`<link>` do `index.html` levam `?v=<etiqueta>`. O `npm test` atualiza a etiqueta sozinho (`scripts/versao.mjs`); import novo pode ser escrito sem ela.
 - Servidor local: `npx serve .` ou `python -m http.server 5173` (módulos ES não abrem com duplo clique).
 
 ## Fluxo de trabalho

@@ -1,11 +1,11 @@
 /**
  * TELA: Contatos feitos — histórico de todos os contatos registrados.
  */
-import { h, montar } from '../../core/dom.js';
-import { dataService } from '../../data/dataService.js';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js';
-import { formatarData, hojeISO, somarDias } from '../../core/datas.js';
-import { carregando, falhaCarregar, chips, campo } from '../componentes/ui.js';
+import { h, montar } from '../../core/dom.js?v=864615d145';
+import { dataService } from '../../data/dataService.js?v=864615d145';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=864615d145';
+import { formatarData, hojeISO, somarDias } from '../../core/datas.js?v=864615d145';
+import { carregando, falhaCarregar, chips, campo } from '../componentes/ui.js?v=864615d145';
 
 const filtro = { periodo: 7, operador: '', resultado: '' };
 const LIMITE = 200;

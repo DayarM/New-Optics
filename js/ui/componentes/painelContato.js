@@ -3,11 +3,11 @@
  * Escolher o resultado já sugere a data do próximo contato (vinda do config);
  * o operador pode mudar a data ou deixar em branco.
  */
-import { h, lerFormulario } from '../../core/dom.js';
-import { REGRAS_RECONTATO } from '../../config/regras.config.js';
-import { clientesService } from '../../services/clientesService.js';
-import { hojeISO, somarDias, formatarData } from '../../core/datas.js';
-import { abrirPainel, campo, avisar, tratarErro, comCarregamento, maisDetalhes } from './ui.js';
+import { h, lerFormulario } from '../../core/dom.js?v=864615d145';
+import { REGRAS_RECONTATO } from '../../config/regras.config.js?v=864615d145';
+import { clientesService } from '../../services/clientesService.js?v=864615d145';
+import { hojeISO, somarDias, formatarData } from '../../core/datas.js?v=864615d145';
+import { abrirPainel, campo, avisar, tratarErro, comCarregamento, maisDetalhes } from './ui.js?v=864615d145';
 
 /**
  * @param {object} pessoa  cliente ou lead

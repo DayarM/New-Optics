@@ -4,7 +4,8 @@
   "type": "module",
   "description": "Mini-CRM da MM Óptica — SPA vanilla + Google Sheets",
   "scripts": {
-    "test": "node --test tests/*.test.js && node tests/backend-simulado.cjs",
+    "versao": "node scripts/versao.mjs",
+    "test": "node scripts/versao.mjs && node --test tests/*.test.js && node tests/backend-simulado.cjs",
     "dev": "npx --yes serve -l 5173 ."
   }
 }

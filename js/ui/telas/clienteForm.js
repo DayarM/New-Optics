@@ -2,14 +2,14 @@
  * TELA: Novo cliente / Editar cliente.
  * Campos essenciais à vista; o resto em "Mais detalhes".
  */
-import { h, montar, lerFormulario } from '../../core/dom.js';
-import { irPara } from '../../core/router.js';
-import { clientesService } from '../../services/clientesService.js';
-import { formatarWhatsapp } from '../../services/mensagemService.js';
-import { ehVerdadeiro } from '../../services/recontatoService.js';
-import { hojeISO } from '../../core/datas.js';
-import { TEXTOS } from '../../config/textos.config.js';
-import { campo, maisDetalhes, avisar, tratarErro, comCarregamento, carregando, falhaCarregar, campoConsentimento, faixaCampanha, comIcone } from '../componentes/ui.js';
+import { h, montar, lerFormulario } from '../../core/dom.js?v=864615d145';
+import { irPara } from '../../core/router.js?v=864615d145';
+import { clientesService } from '../../services/clientesService.js?v=864615d145';
+import { formatarWhatsapp } from '../../services/mensagemService.js?v=864615d145';
+import { ehVerdadeiro } from '../../services/recontatoService.js?v=864615d145';
+import { hojeISO } from '../../core/datas.js?v=864615d145';
+import { TEXTOS } from '../../config/textos.config.js?v=864615d145';
+import { campo, maisDetalhes, avisar, tratarErro, comCarregamento, carregando, falhaCarregar, campoConsentimento, faixaCampanha, comIcone } from '../componentes/ui.js?v=864615d145';
 
 export async function telaClienteForm(container, { id } = {}) {
   let anterior = null;

@@ -3,8 +3,8 @@
  * Serve para testar a interface antes de configurar a planilha.
  * Implementa exatamente o mesmo contrato do sheetsAdapter.
  */
-import { AppError } from '../../core/erros.js';
-import { hojeISO, somarDias, maisRecente } from '../../core/datas.js';
+import { AppError } from '../../core/erros.js?v=864615d145';
+import { hojeISO, somarDias, maisRecente } from '../../core/datas.js?v=864615d145';
 
 const CHAVE = 'mmcrm.demo.v2';
 const espera = () => new Promise((r) => setTimeout(r, 200));

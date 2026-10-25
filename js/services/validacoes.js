@@ -3,8 +3,8 @@
  * Cada validador devolve { valor, erros }, onde `erros` = { campo: 'texto simples' }.
  * O servidor repete as validações essenciais (nunca confie só no navegador).
  */
-import { ehDataISO } from '../core/datas.js';
-import { normalizarWhatsapp } from './mensagemService.js';
+import { ehDataISO } from '../core/datas.js?v=864615d145';
+import { normalizarWhatsapp } from './mensagemService.js?v=864615d145';
 
 export function normalizarTexto(t) {
   return String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();

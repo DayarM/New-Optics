@@ -4,8 +4,8 @@
  * PONTO DE EXTENSÃO: se o volume crescer muito, mova este cálculo para uma
  * ação `indicadores` no Code.gs e chame-a pelo dataService; a tela não muda.
  */
-import { somarDias, ehDataISO } from '../core/datas.js';
-import { ehVerdadeiro } from './recontatoService.js';
+import { somarDias, ehDataISO } from '../core/datas.js?v=864615d145';
+import { ehVerdadeiro } from './recontatoService.js?v=864615d145';
 
 /** "1.250,90" ou "1250,90" → 1250.9 */
 export function valorNumerico(txt) {
